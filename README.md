@@ -22,7 +22,7 @@
 
 ---
 
-### 📂 Project Structure
+###  Project Structure
 * `/assets` - CSS styles and UI images.
 * `/src` - Core PHP logic and `db.php` connection.
 * `/sql` - Database `schema.sql` and migration files.
