@@ -56,3 +56,12 @@
 * **Sync Often:** Always `git pull` before starting new work.
 * **Pull Requests:** All code must be reviewed via a PR before merging into `main`.
 
+---
+
+1. Design ERD
+2. Mapping ERD to Relational Schemas
+3. Code SQL
+4. Code Java (or other language of your choice)
+5. Make Presentation
+6. Report
+
