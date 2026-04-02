@@ -65,3 +65,18 @@
 5. Make Presentation
 6. Report
 
+---
+
+## Recipe Recommender (local)
+
+A simple PHP endpoint has been added at `recommend.php` which returns recipe recommendations based on a `query` parameter. Example:
+
+```
+GET /recommend.php?query=avocado
+```
+
+Optional parameter: `user_id` — when provided the query is logged to `DataBase/search_logs.json` for future personalization.
+
+Data files are stored in the `DataBase` folder: `recipes.json` and `search_logs.json`.
+
+

@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "title": "Classic Pancakes",
+    "ingredients": ["flour", "milk", "egg", "baking powder", "salt", "sugar"],
+    "category": "breakfast",
+    "tags": ["easy", "sweet", "quick"],
+    "description": "Fluffy classic pancakes perfect for a weekend breakfast."
+  },
+  {
+    "id": 2,
+    "title": "Spicy Chickpea Curry",
+    "ingredients": ["chickpeas", "tomato", "onion", "garlic", "cumin", "chili"],
+    "category": "dinner",
+    "tags": ["vegan", "spicy", "gluten-free"],
+    "description": "A warm and spicy chickpea curry served with rice."
+  },
+  {
+    "id": 3,
+    "title": "Avocado Toast with Egg",
+    "ingredients": ["bread", "avocado", "egg", "lemon", "salt", "pepper"],
+    "category": "breakfast",
+    "tags": ["quick", "healthy"],
+    "description": "Creamy avocado on toasted bread topped with a fried egg."
+  }
+]
