@@ -79,4 +79,14 @@ Optional parameter: `user_id` — when provided the query is logged to `DataBase
 
 Data files are stored in the `DataBase` folder: `recipes.json` and `search_logs.json`.
 
+## Authentication endpoints
+
+Simple auth helpers are available for local development:
+
+- Register: `/auth.php?action=register&username=NAME&password=PWD` — creates a saved account (stores hashed password in `DataBase/users.json`).
+- Login: `/auth.php?action=login&username=NAME&password=PWD` — returns `user_id` on success.
+- Guest: `/auth.php?action=guest` — returns a non-persistent `guest_id` you can pass as `user_id` to `recommend.php` without storing credentials.
+
+When `recommend.php` receives a `user_id` it will append the search to `DataBase/search_logs.json` (used for personalization). Provide a `guest_id` if you do not want credentials stored.
+
 

@@ -1,31 +1,72 @@
 <?php
-// Simple recipe recommender based on search terms
 header('Content-Type: application/json; charset=utf-8');
 
+//references JSON files for recipes and search logs
 $dataDir = __DIR__ . '/DataBase';
 $recipesFile = $dataDir . '/recipes.json';
 $logsFile = $dataDir . '/search_logs.json';
 
+//returns error message if recipe database is not found
 if (!file_exists($recipesFile)) {
     http_response_code(500);
     echo json_encode(['error' => 'Recipe database not found']);
     exit;
 }
-
+//user query and id are recorded for analytics, but not required for recommendations to work
 $query = isset($_GET['query']) ? trim((string)$_GET['query']) : '';
 $userId = isset($_GET['user_id']) ? trim((string)$_GET['user_id']) : null;
 
-if ($query === '') {
-    echo json_encode(['results' => [], 'message' => 'Provide a query parameter like ?query=pancake']);
-    exit;
-}
+// optional parameters to modify the query
+$addParam = isset($_GET['add']) ? trim((string)$_GET['add']) : '';
+$removeParam = isset($_GET['remove']) ? trim((string)$_GET['remove']) : '';
 
 $raw = file_get_contents($recipesFile);
 $recipes = json_decode($raw, true) ?: [];
 
-// tokenize query
-$tokens = preg_split('/[^\p{L}\p{N}]+/u', mb_strtolower($query));
-$tokens = array_filter($tokens);
+// tokenize base query
+$tokens = [];
+if ($query !== '') {
+    $tokens = preg_split('/[^\p{L}\p{N}]+/u', mb_strtolower($query));
+    $tokens = array_filter($tokens);
+}
+
+// parse additions and removals into tokens
+$added = [];
+$removed = [];
+if ($addParam !== '') {
+    $addTokens = preg_split('/[^\p{L}\p{N}]+/u', mb_strtolower($addParam));
+    $addTokens = array_filter($addTokens);
+    foreach ($addTokens as $t) {
+        if ($t === '') continue;
+        $added[] = $t;
+        $tokens[] = $t;
+    }
+}
+
+// remove tokens (exact match) if requested
+if ($removeParam !== '') {
+    $removeTokens = preg_split('/[^\p{L}\p{N}]+/u', mb_strtolower($removeParam));
+    $removeTokens = array_filter($removeTokens);
+    if (!empty($removeTokens)) {
+        $tokens = array_filter($tokens, function($t) use ($removeTokens, &$removed) {
+            foreach ($removeTokens as $r) {
+                if ($t === $r) {
+                    $removed[] = $r;
+                    return false;
+                }
+            }
+            return true;
+        });
+    }
+}
+
+// normalize tokens (unique, reindex)
+$tokens = array_values(array_unique($tokens));
+
+if (empty($tokens)) {
+    echo json_encode(['query' => $query, 'final_query' => '', 'added' => $added, 'removed' => $removed, 'results' => [], 'message' => 'No query tokens left after modifications']);
+    exit;
+}
 
 function scoreRecipe(array $recipe, array $tokens) {
     $score = 0.0;
@@ -66,9 +107,10 @@ usort($scored, function($a, $b){
 
 $top = array_slice($scored, 0, 5);
 
-// Log the search asynchronously (best-effort)
+// Log the search asynchronously (best-effort) — log the final query after modifications
+$finalQuery = implode(' ', $tokens);
 if ($userId !== null) {
-    $entry = ['user_id' => $userId, 'query' => $query, 'time' => date('c')];
+    $entry = ['user_id' => $userId, 'original_query' => $query, 'final_query' => $finalQuery, 'added' => $added, 'removed' => $removed, 'time' => date('c')];
     try {
         $logs = file_exists($logsFile) ? json_decode(file_get_contents($logsFile), true) : [];
         if (!is_array($logs)) $logs = [];
@@ -79,4 +121,4 @@ if ($userId !== null) {
     }
 }
 
-echo json_encode(['query' => $query, 'results' => $top], JSON_UNESCAPED_UNICODE);
+echo json_encode(['original_query' => $query, 'final_query' => $finalQuery, 'added' => $added, 'removed' => $removed, 'results' => $top], JSON_UNESCAPED_UNICODE);

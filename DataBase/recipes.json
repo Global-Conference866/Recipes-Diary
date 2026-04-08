@@ -22,5 +22,61 @@
     "category": "breakfast",
     "tags": ["quick", "healthy"],
     "description": "Creamy avocado on toasted bread topped with a fried egg."
+  },
+  {
+    "id": 4,
+    "title": "Grilled Chicken Salad",
+    "ingredients": ["chicken breast", "mixed greens", "tomato", "cucumber", "olive oil", "lemon juice"],
+    "category": "lunch",
+    "tags": ["healthy", "low-carb"],
+    "description": "A light and refreshing salad with grilled chicken and fresh vegetables."
+  },
+  {
+    "id": 5,
+    "title": "Chocolate Chip Cookies",
+    "ingredients": ["flour", "sugar", "butter", "egg", "chocolate chips", "vanilla extract"],
+    "category": "dessert",
+    "tags": ["sweet", "baking"],
+    "description": "Classic chocolate chip cookies with a crispy edge and chewy center."
+  },
+  {
+    "id": 6,
+    "title": "Vegetable Stir Fry",
+    "ingredients": ["broccoli", "carrot", "bell pepper", "soy sauce", "garlic", "ginger"],
+    "category": "dinner",
+    "tags": ["vegan", "quick", "healthy"],
+    "description": "A colorful and flavorful vegetable stir fry served with rice or noodles."
+  },
+  {
+    "id": 7,
+    "title": "Banana Smoothie",
+    "ingredients": ["banana", "milk", "yogurt", "honey", "ice"],
+    "category": "breakfast",
+    "tags": ["quick", "healthy", "sweet"],
+    "description": "A creamy and delicious banana smoothie perfect for a quick breakfast or snack."
+  },
+  {
+    "id": 8,
+    "title": "Quinoa Salad with Feta",
+    "ingredients": ["quinoa", "feta cheese", "cucumber", "tomato", "olive oil", "lemon juice"],
+    "category": "lunch",
+    "tags": ["vegetarian", "healthy", "gluten-free"],
+    "description": "A light and refreshing quinoa salad with feta cheese and fresh vegetables."
+  },
+  {
+    "id": 9,
+    "title": "Beef Tacos",
+    "ingredients": ["ground beef", "taco shells", "lettuce", "cheese", "salsa", "sour cream"],
+    "category": "dinner",
+    "tags": ["quick", "savory"],
+    "description": "Delicious beef tacos with all the classic toppings."
+  },
+  {
+    "id": 10,
+    "title": "Lemon Garlic Shrimp",
+    "ingredients": ["shrimp", "lemon", "garlic", "olive oil", "parsley", "salt", "pepper"],
+    "category": "dinner",
+    "tags": ["quick", "seafood", "healthy"],
+    "description": "A flavorful and easy lemon garlic shrimp dish perfect for a weeknight dinner."
   }
 ]
