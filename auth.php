@@ -38,6 +38,8 @@ if ($action === 'register') {
     $id = (string)time() . bin2hex(random_bytes(4));
     $hash = password_hash($password, PASSWORD_DEFAULT);
     $user = ['id' => $id, 'username' => $username, 'password_hash' => $hash, 'created' => date('c')];
+    // default role is regular user; staff accounts should be granted manually
+    $user['role'] = 'user';
     $users[] = $user;
     file_put_contents($usersFile, json_encode($users, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
     echo json_encode(['status' => 'ok', 'user_id' => $id]);
@@ -54,6 +56,27 @@ if ($action === 'login') {
         if (isset($u['username']) && mb_strtolower($u['username']) === mb_strtolower($username)) {
             if (isset($u['password_hash']) && password_verify($password, $u['password_hash'])) {
                 echo json_encode(['status' => 'ok', 'user_id' => $u['id']]);
+                exit;
+            }
+            jsonErr('invalid credentials', 401);
+        }
+    }
+    jsonErr('user not found', 404);
+}
+
+// staff login: only users with role 'staff' may authenticate here
+if ($action === 'staff_login') {
+    $username = isset($_GET['username']) ? trim((string)$_GET['username']) : '';
+    $password = isset($_GET['password']) ? (string)$_GET['password'] : '';
+    if ($username === '' || $password === '') jsonErr('username and password are required', 422);
+
+    foreach ($users as $u) {
+        if (isset($u['username']) && mb_strtolower($u['username']) === mb_strtolower($username)) {
+            if (!isset($u['role']) || $u['role'] !== 'staff') {
+                jsonErr('forbidden: not a staff account', 403);
+            }
+            if (isset($u['password_hash']) && password_verify($password, $u['password_hash'])) {
+                echo json_encode(['status' => 'ok', 'user_id' => $u['id'], 'role' => $u['role']]);
                 exit;
             }
             jsonErr('invalid credentials', 401);
@@ -79,6 +102,7 @@ echo json_encode([
     'usage' => [
         'register' => '/auth.php?action=register&username=...&password=...',
         'login' => '/auth.php?action=login&username=...&password=...',
+        'staff_login' => '/auth.php?action=staff_login&username=...&password=... (requires role=staff)',
         'guest' => '/auth.php?action=guest'
     ]
 ]);
