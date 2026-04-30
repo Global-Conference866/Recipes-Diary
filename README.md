@@ -89,4 +89,5 @@ Simple auth helpers are available for local development:
 
 When `recommend.php` receives a `user_id` it will append the search to `DataBase/search_logs.json` (used for personalization). Provide a `guest_id` if you do not want credentials stored.
 
+# How to run Code
 
