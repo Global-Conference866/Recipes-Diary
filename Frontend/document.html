@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Share</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Recipe Diary</h1>
+        <div class="search-container">
+            <input type="text" placeholder="Search for recipe">
+            <button>🔍</button>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li class="nav-item active" onclick="showPage('home', this)">Home</li>
+            <li class="nav-item" onclick="showPage('recipes', this)">Recipes</li>
+            <li class="nav-item" onclick="showPage('saved', this)">Saved</li>
+            <li class="nav-item" onclick="showPage('upload', this)">Upload</li>
+        </ul>
+    </nav>
+
+    <main id="content">
+        <section id="home" class="page active-page">
+            <div class="home-layout">
+                <div class="main-col">
+                    <h3>Featured</h3>
+                    <div class="featured-box"></div>
+                    <h3>Trending</h3>
+                    <div class="recipe-grid">
+                        <div class="card-sm"> <div class="img-placeholder"></div> <div class="text-lines"><span></span><span></span></div> </div>
+                        <div class="card-sm"> <div class="img-placeholder"></div> <div class="text-lines"><span></span><span></span></div> </div>
+                        <div class="card-sm"> <div class="img-placeholder"></div> <div class="text-lines"><span></span><span></span></div> </div>
+                        <div class="card-sm"> <div class="img-placeholder"></div> <div class="text-lines"><span></span><span></span></div> </div>
+                    </div>
+                </div>
+                <aside class="side-col">
+                    <h3>Saved</h3>
+                    <div class="card-sm"> <div class="img-placeholder"></div> <div class="text-lines"><span></span><span></span></div> </div>
+                    <div class="card-sm"> <div class="img-placeholder"></div> <div class="text-lines"><span></span><span></span></div> </div>
+                </aside>
+            </div>
+        </section>
+
+        <section id="recipes" class="page">
+            <div class="filter-bar">
+                <div class="chips"><span></span><span></span><span></span><span></span><span></span></div>
+                <p>Keywords Filter</p>
+            </div>
+            <h3>Recommended</h3>
+            <div class="recipe-grid-lg">
+                <div class="card-lg"> <div class="img-placeholder-lg"></div> <div class="text-lines"><span></span><span></span></div> </div>
+                <div class="card-lg"> <div class="img-placeholder-lg"></div> <div class="text-lines"><span></span><span></span></div> </div>
+            </div>
+        </section>
+
+        <section id="saved" class="page">
+            <div class="saved-header">
+                <h3>My Saved</h3>
+                <h3>My Uploads</h3>
+                <div class="sort">Sort by → ≡</div>
+            </div>
+            <div class="list-view">
+                <div class="card-horizontal"> <div class="img-placeholder-sq"></div> <div class="text-lines"><span></span><span></span></div> </div>
+                <div class="card-horizontal"> <div class="img-placeholder-sq"></div> <div class="text-lines"><span></span><span></span></div> </div>
+            </div>
+        </section>
+
+        <section id="upload" class="page">
+            <div class="upload-container">
+                <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+                    <span id="uploadIcon">↑</span>
+                    <p id="uploadText">Upload Photo</p>
+                    <input type="file" id="fileInput" style="display:none" accept="image/*">
+                </div>
+        
+                <div class="form-fields">
+                    <label>Recipe Name</label>
+                    <input type="text" id="recipeName" class="input-field">
+            
+                    <label>Description</label>
+                    <textarea id="recipeDesc" class="input-field" rows="3"></textarea>
+            
+                    <label>Instructions</label>
+                    <textarea id="recipeInstr" class="input-field" rows="6"></textarea>
+            
+                    <button type="submit-btn" onclick="saveRecipe()">Post Recipe</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    
+
+    <script src="script.js"></script>
+</body>
+</html>
