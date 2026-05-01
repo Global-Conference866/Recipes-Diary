@@ -20,7 +20,7 @@ function saveRecipe() {
 }
 async function displayRecipes() {
     try{
-        const response = await fetch('getrecipes.php');
+        const response = await fetch('Backend/getrecipes.php');
         const recipes = await response.json();
 
         const trendingGrid = document.querySelector('.recipe-grid');
@@ -30,25 +30,25 @@ async function displayRecipes() {
         recommendedGrid.innerHTML='';
 
         recipes.forEach(recipe => {
-            const cardHTML = `
-                <div class="card-sm" onclick="openRecipe(${recipe.id})">
-                    <div class="img-placeholder" style="background-image: url('${recipe.img_url}'); background-size: cover;"></div>
-                    <div class="text-lines">
-                        <strong>${recipe.title}</strong>
-                        <span>${recipe.category}</span>
-                    </div>
-                </div>
-            `;
-            if (recipe.isTrending=="1"){
-                trendingGrid.innerHTML += cardHTML;
-            }
-            if (recipe.isRecommended=="1"){
-                recommendedGrid.innerHTML += cardHTML;
-            }
-        })
-    } catch (error){
-        console.error("Could not load recipes:", error);
+    const card = `
+        <div class="recipe-card" onclick="openRecipe(${recipe.id})">
+            <img src="${recipe.img_url || 'default.jpg'}" />
+            <h3>${recipe.title}</h3>
+            <p>${recipe.category || 'No category'}</p>
+        </div>
+    `;
+
+    if (recipe.isTrending == 1) {
+        trendingGrid.innerHTML += card;
     }
+
+    if (recipe.isRecommended == 1) {
+        recommendedGrid.innerHTML += card;
+    }
+});
+    } catch (error) {
+        console.error("Error fetching recipes:", error);
+    }  
 }
 window.onload=displayRecipes;
 async function saveRecipe(){
@@ -68,7 +68,7 @@ async function saveRecipe(){
     formData.append('recipe_image', fileInput.files[0]);
 
     try {
-        const response = await fetch('save_recipe.php', {
+        const response = await fetch('Backend/saverecipes.php', {
             method: 'POST',
             body: formData
         })

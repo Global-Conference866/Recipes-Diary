@@ -1,25 +1,24 @@
 <?php
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db = "recipe_db";
+require_once 'config.php';
 
-$conn = new mysqli($host, $user, $pass, $db);
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json");
 
-if($conn->connect_error){
-    die("Connection failed: " . $conn->connect_error);
+try {
+    $stmt = $pdo->query("
+        SELECT 
+            recipe_id AS id,
+            title,
+            img_url,
+            isTrending,
+            isRecommended
+        FROM RECIPES
+        ORDER BY created_at DESC
+    ");
+
+    echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+
+} catch(PDOException $e) {
+    echo json_encode(["error"=>$e->getMessage()]);
 }
-
-$sql = "SELECT * FROM recipes";
-$result = $conn->query($sql);
-
-$recipes = [];
-while($row=$result->fetch_assoc()){
-    $recipes[] = $row;
-}
-
-header('Content-Type: application/json');
-echo json_encode($recipes);
-
-$conn->close();
 ?>
